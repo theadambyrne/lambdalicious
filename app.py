@@ -15,7 +15,7 @@ def authorizer(auth_request):
 
 @app.route('/protected', methods=['GET'], api_key_required=True)
 def protected_route():
-    authorizer({'token': app.current_request.headers.get('x-api-key')})
+    auth_result = authorizer({'token': app.current_request.headers.get('x-api-key')})
     return {'message': 'Protected Route'}
 
 @app.route('/')
