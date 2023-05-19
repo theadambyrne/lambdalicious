@@ -1,21 +1,9 @@
-from chalice import Chalice,  UnauthorizedError
+from chalice import Chalice, UnauthorizedError 
 
 app = Chalice(app_name='lambdalicious')
 
 customerQueue = []
 
-OWNER_KEY = '12345'
-
-def authorizer(auth_request):
-    token = auth_request.token
-    if token == OWNER_KEY:
-        return {'principalId': 'user'}
-    raise UnauthorizedError('Unauthorized')
-
-@app.route('/admin', methods=['GET'], api_key_required=True)
-def protected_route():
-    authorizer({'token': app.current_request.headers.get('x-api-key')})
-    return {'message': 'Protected Route'}
 
 @app.route('/')
 def index():
