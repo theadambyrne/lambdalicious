@@ -1,11 +1,11 @@
-from chalice import Chalice, UnauthorizedError 
+from chalice import Chalice
 
 app = Chalice(app_name='lambdalicious')
 
 customerQueue = []
 
 
-@app.route('/')
+@app.route('/', methods=['GET'])
 def index():
     return {"Current queue":str(customerQueue)}
 
