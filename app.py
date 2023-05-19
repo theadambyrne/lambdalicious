@@ -4,18 +4,17 @@ app = Chalice(app_name='lambdalicious')
 
 customerQueue = []
 
-API_KEYS = ['owner_key']
+OWNER_KEY = '12345'
 
 def authorizer(auth_request):
     token = auth_request.token
-    if token in API_KEYS:
-        return {'principalId': token}
-    else:
-        raise UnauthorizedError("Invalid API Key")
+    if token == OWNER_KEY:
+        return {'principalId': 'user'}
+    raise UnauthorizedError('Unauthorized')
 
-@app.route('/protected', methods=['GET'], api_key_required=True)
+@app.route('/admin', methods=['GET'], api_key_required=True)
 def protected_route():
-    auth_result = authorizer({'token': app.current_request.headers.get('x-api-key')})
+    authorizer({'token': app.current_request.headers.get('x-api-key')})
     return {'message': 'Protected Route'}
 
 @app.route('/')
