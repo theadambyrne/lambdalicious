@@ -4,6 +4,8 @@ app = Chalice(app_name='lambdalicious')
 
 customerQueue = []
 
+API_KEY = '1234'
+
 
 @app.route('/', methods=['GET'])
 def index():
@@ -14,13 +16,19 @@ def reset():
     customerQueue.clear()
     return {"Queue reset":str(customerQueue)}
 
-@app.route('/add/{name}', methods=['POST'])
+@app.route('/add/{name}', methods=['POST'], api_key_required=True)
 def add(name):
+    if ( API_KEY != app.current_request.headers['x-api-key'] ):
+        return {"Error":"Invalid API key"}
+    
     customerQueue.append(name)
     return {"Added to queue":str(customerQueue)}
 
-@app.route('/remove', methods=['POST']) 
+@app.route('/remove', methods=['POST'], api_key_required=True) 
 def remove():
+    if ( API_KEY != app.current_request.headers['x-api-key'] ):
+        return {"Error":"Invalid API key"} 
+    
     customerQueue.pop(0)
     return {"Removed from queue":str(customerQueue)}
 
