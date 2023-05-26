@@ -1,7 +1,6 @@
-# Lambdalicious - API Documentation
+# Lambdalicious 
 
-This documentation provides an overview of the endpoints available in the Chalice Lambda serverless API.
-
+OpenAPI3 specification for the Lambdalicious API: [lambdalicious-api-oas30.yaml](lambdalicious-api-oas30.yaml)
 ## Base URL
 
 The base URL for the API is `https://2x3pds3pyf.execute-api.eu-west-1.amazonaws.com/api/`.
