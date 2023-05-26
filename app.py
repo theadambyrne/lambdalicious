@@ -43,11 +43,12 @@ API_KEYS = ['1234']
 
 def check_ak(func):
     def wrapper(*args, **kwargs):
-        api_key = app.current_request.headers.get('x-api-key')
-        if api_key not in API_KEYS:
-            return Response('Invalid API key', status_code=401)
+        if app.current_request.method != 'OPTIONS' and app.current_request.context.get('api_key_required', True):
+            if app.current_request.headers.get('x-api-key') not in API_KEYS:
+                return Response(body='Invalid API key', status_code=401)
         return func(*args, **kwargs)
     return wrapper
+
 
 @app.route('/', methods=['GET'])
 def index():
