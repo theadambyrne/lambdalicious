@@ -50,7 +50,7 @@ def check_ak(func):
     return wrapper
 
 
-@app.route('/', methods=['GET'])
+@app.route('/', methods=['GET'], api_key_required=False)
 def index():
     customer_queue = get_customer_queue()
     return Response(body=str(customer_queue), status_code=200)
@@ -98,11 +98,11 @@ def next():
         return Response(body=get_customer_queue()[0], status_code=200)
     return Response(body='No one in queue', status_code=204)
 
-@app.route("/stats")
+@app.route("/stats", methods=['GET'], api_key_required=False)
 def stats():
     return Response(body=str(len(get_customer_queue())), status_code=200)
 
-@app.route('/position/{name}', methods=['GET'])
+@app.route('/position/{name}', methods=['GET'], api_key_required=False)
 def position(name):
     if name in get_customer_queue():
         return Response(body=str(get_customer_queue().index(name)), status_code=200)
